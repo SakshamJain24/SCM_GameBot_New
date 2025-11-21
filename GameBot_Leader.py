@@ -11,7 +11,7 @@ from pathlib import Path
 st.set_page_config(page_title="SupplyVerse", page_icon="🏭", layout="wide")
 
 # Add logo
-st.sidebar.image("C:\\PyCharmProjects\\NewSCMgameBot\\images.png", width=150)
+st.sidebar.image("images (2).png", width=200)
 
 # Configure Gemini API
 genai.configure(api_key=st.secrets.get("GEMINI_API_KEY", ""))
@@ -1289,3 +1289,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
