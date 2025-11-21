@@ -7,11 +7,15 @@ import pandas as pd
 import sqlite3
 from pathlib import Path
 
+# Page config
+st.set_page_config(page_title="SupplyVerse", page_icon="🏭", layout="wide")
+
+# Add logo
+st.sidebar.image("C:\\PyCharmProjects\\NewSCMgameBot\\images.png", width=150)
+
 # Configure Gemini API
 genai.configure(api_key=st.secrets.get("GEMINI_API_KEY", ""))
 
-# Page config
-st.set_page_config(page_title="SupplyVerse", page_icon="🏭", layout="wide")
 
 # Custom CSS for better visuals
 st.markdown("""
@@ -20,7 +24,7 @@ st.markdown("""
         font-size: 3rem;
         font-weight: bold;
         text-align: center;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(90deg, #1BA098 0%, #00B5AD 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0;
@@ -32,14 +36,23 @@ st.markdown("""
         margin-top: 0;
     }
     .stProgress > div > div > div > div {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(90deg, #1BA098 0%, #FF8C42 100%);
     }
     .metric-box {
         background: #f8f9fa;
         padding: 15px;
         border-radius: 10px;
-        border-left: 4px solid #667eea;
+        border-left: 4px solid #1BA098;
         margin: 10px 0;
+    }
+    .stButton > button {
+        background: linear-gradient(135deg, #1BA098 0%, #00B5AD 100%);
+        color: white;
+        border: none;
+    }
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #00B5AD 0%, #1BA098 100%);
+        border: none;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -680,8 +693,8 @@ def render_dashboard(scores):
         theta=categories,
         fill='toself',
         name='Performance',
-        line_color='rgb(102, 126, 234)',
-        fillcolor='rgba(102, 126, 234, 0.5)'
+        line_color='#1BA098',  # Changed to teal
+        fillcolor='rgba(27, 160, 152, 0.5)'  # Changed to teal with transparency
     ))
     
     fig.update_layout(
@@ -689,16 +702,22 @@ def render_dashboard(scores):
             radialaxis=dict(
                 visible=True,
                 range=[0, 100],
-                tickfont=dict(size=10)
+                tickfont=dict(size=10, color='#1F1F1F')
+            ),
+            angularaxis=dict(
+                linecolor='#1BA098',
+                gridcolor='rgba(27, 160, 152, 0.2)'
             )
         ),
         showlegend=False,
         height=400,
-        margin=dict(l=80, r=80, t=40, b=40)
+        margin=dict(l=80, r=80, t=40, b=40),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     
     return fig
-
+    
 
 def render_progress_bar():
     """Render game progress"""
@@ -747,17 +766,18 @@ def render_leaderboard():
     
     # Style the dataframe with custom colors
     def style_leaderboard(row):
-        # Highlight current player
+        # Highlight current player with teal theme
         if row['👤 Player'] == st.session_state.game_state.get('player_name'):
-            return ['background-color: #fffacd; color: #000000; font-weight: bold'] * len(row)
+            return ['background-color: #E0F7F5; color: #1BA098; font-weight: bold; border: 2px solid #1BA098'] * len(row)
         # Color top 3 differently
         elif row['🏅 Rank'] == 1:
             return ['background-color: #FFD700; color: #000000; font-weight: bold'] * len(row)
         elif row['🏅 Rank'] == 2:
             return ['background-color: #C0C0C0; color: #000000; font-weight: bold'] * len(row)
         elif row['🏅 Rank'] == 3:
-            return ['background-color: #CD7F32; color: #000000; font-weight: bold'] * len(row)
-        return ['color: #1f1f1f'] * len(row)
+            return ['background-color: #CD7F32; color: #FFFFFF; font-weight: bold'] * len(row)  # Changed to white text for bronze
+        # For ranks 4 and below - ensure white/light background with dark text
+        return ['background-color: #FFFFFF; color: #1F1F1F'] * len(row)
     
     styled_df = display_df.style.apply(style_leaderboard, axis=1)
     
@@ -800,7 +820,7 @@ def render_leaderboard():
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">🏭 Supply Verse</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">🏭 SupplyVerse</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Step into the role of a Supply Chain Consultant and navigate real-world challenges</p>', unsafe_allow_html=True)
     
     # Sidebar for game info
@@ -1027,7 +1047,7 @@ def main():
                         f"**Option {option['id']}**\n\n{option['text']}", 
                         key=f"opt_{option['id']}",
                         use_container_width=True,
-                        type="secondary"
+                        type="primary"  # Changed from "secondary" to "primary"
                     ):
                         st.session_state.game_state['selected_choice'] = option
                         st.session_state.game_state['decision_made'] = True
@@ -1269,5 +1289,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
