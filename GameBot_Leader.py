@@ -11,7 +11,7 @@ from pathlib import Path
 genai.configure(api_key=st.secrets.get("GEMINI_API_KEY", ""))
 
 # Page config
-st.set_page_config(page_title="SCM Game Bot", page_icon="🏭", layout="wide")
+st.set_page_config(page_title="SupplyVerse", page_icon="🏭", layout="wide")
 
 # Custom CSS for better visuals
 st.markdown("""
@@ -388,7 +388,7 @@ def get_scenario_from_gemini(client_type, stage_name, scenario_number, scores, p
         return scenario
         
     except Exception as e:
-        st.error(f"⚠️ Error generating scenario: {str(e)}")
+        # st.error(f"⚠️ Error generating scenario: {str(e)}")
         # Return a fallback scenario
         return create_fallback_scenario(stage_name)
 
@@ -800,7 +800,7 @@ def render_leaderboard():
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">🏭 Supply Chain Management Game</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">🏭 Supply Verse</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Step into the role of a Supply Chain Consultant and navigate real-world challenges</p>', unsafe_allow_html=True)
     
     # Sidebar for game info
@@ -867,7 +867,7 @@ def main():
         col1, col2, col3 = st.columns([1, 2, 1])
         
         with col2:
-            st.markdown("### Welcome to the SCM Simulation! 🎮")
+            st.markdown("### Welcome to the SupplyVerse! 🎮")
             
             # Show leaderboard first at the top
             st.markdown("---")
@@ -1266,3 +1266,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
